@@ -220,14 +220,13 @@ function checkAnswer(selected){
             questionText.innerText = "One last time asking... Will you be my Valentine?";
             reaction.innerHTML="😠 Oh No!!";
         }
-        else{
+ else{
     reaction.innerHTML="You cannot say NO 😜";
 
     const container = document.querySelector(".left");
-
     noBtn.style.position = "absolute";
 
-    noBtn.onmouseover = function(){
+    function moveButton(){
 
         const containerRect = container.getBoundingClientRect();
         const btnWidth = noBtn.offsetWidth;
@@ -241,6 +240,21 @@ function checkAnswer(selected){
 
         noBtn.style.left = randomX + "px";
         noBtn.style.top = randomY + "px";
+    }
+
+    // Desktop hover
+    noBtn.onmouseover = moveButton;
+
+    // Mobile touch
+    noBtn.ontouchstart = function(e){
+        e.preventDefault();   // prevent click
+        moveButton();
+    };
+
+    // Extra safety for click
+    noBtn.onclick = function(e){
+        e.preventDefault();
+        moveButton();
     };
 }
 
