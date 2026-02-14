@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Special 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('img2.jpg') no-repeat center center/cover;
+}
+
+.overlay{
+    background: rgba(255,192,203,0.85);
+    min-height:100vh;
+    padding:20px;
+}
+
+.header{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#d63384;
+    margin-bottom:20px;
+}
+
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.left{
+    flex:1;
+    min-width:300px;
+    padding:25px;
+    background:#fff0f5;
+}
+
+.right{
+    flex:1;
+    min-width:300px;
+    background-size:cover;
+    background-position:center;
+    min-height:300px;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-top:20px;
+}
+
+button{
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    background:#ff69b4;
+    color:white;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#d63384;
+}
+
+.reaction{
+    margin-top:15px;
+    font-weight:bold;
+    color:#d63384;
+}
+
+.next-btn{
+    margin-top:10px;
+    display:none;
+}
+
+.vibrate{
+    animation:shake 0.3s;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    50%{transform:translateX(5px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
+}
+
+.celebrate{
+    text-align:center;
+    margin-top:20px;
+}
+
+@media(max-width:768px){
+    .container{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="header">
+    Hi Sreejita 😘
+</div>
+
+<div class="container">
+
+<div class="left">
+    <h2 id="question">Tell me what color dress I wore on our 1st meet?</h2>
+
+    <div class="options" id="options">
+        <button onclick="checkAnswer('black')">Black</button>
+        <button onclick="checkAnswer('blue')">Blue</button>
+    </div>
+
+    <div class="reaction" id="reaction"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next ❤️</button>
+
+    <div class="celebrate" id="celebrate"></div>
+</div>
+
+<div class="right" id="imageSection"
+     style="background-image:url('img3.jpeg');">
+</div>
+
+</div>
+</div>
+
+<script>
+
+let currentQuestion = 0;
+
+const questions = [
+{
+    question:"Tell me what color dress I wore on our 1st meet?",
+    options:["black","blue"],
+    answer:"black",
+    image:"img3.jpeg"
+},
+{
+    question:"Which date I kissed you 1st?",
+    options:["24th jan","25th jan"],
+    answer:"24th jan",
+    image:"img1.jpeg"
+},
+{
+    question:"Which day I proposed you?",
+    options:["13th march","11th march"],
+    answer:"13th march",
+    image:"img3.jpeg"
+},
+{
+    question:"Will you be my Valentine?",
+    options:["yes","no"],
+    answer:"yes",
+    image:"img1.jpeg"
+}
+];
+
+function checkAnswer(selected){
+
+    const reaction = document.getElementById("reaction");
+    const nextBtn = document.getElementById("nextBtn");
+
+    if(currentQuestion === 3){
+
+        if(selected === "no"){
+            reaction.innerHTML="😠 Oh No!! Try Again!";
+            const noBtn=document.querySelectorAll(".options button")[1];
+            noBtn.classList.add("vibrate");
+            setTimeout(()=>noBtn.classList.remove("vibrate"),300);
+            return;
+        }else{
+            reaction.innerHTML="😘 You are correct ❤️";
+
+            document.getElementById("options").style.display="none";
+
+            document.getElementById("celebrate").innerHTML=`
+                <img src="https://media1.tenor.com/m/xEPMoN21sl8AAAAd/18.gif" width="200">
+            `;
+
+            return;
+        }
+    }
+
+    if(selected===questions[currentQuestion].answer){
+        reaction.innerHTML="😘 You are correct";
+    }else{
+        reaction.innerHTML="😠 Oh No!!";
+    }
+
+    nextBtn.style.display="inline-block";
+}
+
+function nextQuestion(){
+
+    currentQuestion++;
+    const q=questions[currentQuestion];
+
+    document.getElementById("question").innerText=q.question;
+
+    const optionsDiv=document.getElementById("options");
+    optionsDiv.innerHTML="";
+
+    q.options.forEach(option=>{
+        const btn=document.createElement("button");
+        btn.innerText=option.charAt(0).toUpperCase()+option.slice(1);
+        btn.onclick=()=>checkAnswer(option);
+        optionsDiv.appendChild(btn);
+    });
+
+    document.getElementById("imageSection").style.backgroundImage=
+        `url('${q.image}')`;
+
+    document.getElementById("reaction").innerHTML="";
+    document.getElementById("nextBtn").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
