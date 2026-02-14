@@ -9,7 +9,7 @@
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
-    background: url('img2.jpg') no-repeat center center/cover;
+    background: url('img2.jpeg') no-repeat center center/cover;
 }
 
 .overlay{
@@ -25,6 +25,7 @@ body{
     color:#d63384;
     margin-bottom:20px;
 }
+
 .header2{
     text-align:center;
     font-size:14px;
@@ -32,10 +33,12 @@ body{
     color:#d63384;
     margin-bottom:20px;
 }
+
 .container{
     display:flex;
+
     flex-wrap:wrap;
-    background:white;
+    background:white 40%;
     border-radius:20px;
     overflow:hidden;
     box-shadow:0 10px 30px rgba(0,0,0,0.2);
@@ -46,6 +49,7 @@ body{
     min-width:300px;
     padding:25px;
     background:#fff0f5;
+    position:relative;
 }
 
 .right{
@@ -121,9 +125,11 @@ button:hover{
 <div class="header">
     Hi Sreejita 😘
 </div>
+
 <div class="header2">
     VDay Special
 </div>
+
 <div class="container">
 
 <div class="left">
@@ -150,6 +156,7 @@ button:hover{
 <script>
 
 let currentQuestion = 0;
+let noClickCount = 0;
 
 const questions = [
 {
@@ -181,36 +188,73 @@ const questions = [
 function checkAnswer(selected){
 
     const reaction = document.getElementById("reaction");
-    const nextBtn = document.getElementById("nextBtn");
+    const questionText = document.getElementById("question");
 
     if(currentQuestion === 3){
 
-        if(selected === "no"){
-            reaction.innerHTML="😠 Oh No!! Try Again!";
-            const noBtn=document.querySelectorAll(".options button")[1];
-            noBtn.classList.add("vibrate");
-            setTimeout(()=>noBtn.classList.remove("vibrate"),300);
-            return;
-        }else{
-            reaction.innerHTML="😘 I love you 3000 ❤️";
+        const buttons = document.querySelectorAll(".options button");
+        const yesBtn = buttons[0];
+        const noBtn = buttons[1];
 
+        if(selected === "yes"){
+            reaction.innerHTML="😘 I love you 3000 ❤️";
             document.getElementById("options").style.display="none";
 
             document.getElementById("celebrate").innerHTML=`
                 <img src="https://media1.tenor.com/m/xEPMoN21sl8AAAAd/18.gif" width="200">
             `;
-
             return;
         }
+
+        // If NO selected
+        noClickCount++;
+
+        noBtn.classList.add("vibrate");
+        setTimeout(()=>noBtn.classList.remove("vibrate"),300);
+
+        if(noClickCount === 1){
+            questionText.innerText = "Again asking... Will you be my Valentine?";
+            reaction.innerHTML="😠 Oh No!!";
+        }
+        else if(noClickCount === 2){
+            questionText.innerText = "One last time asking... Will you be my Valentine?";
+            reaction.innerHTML="😠 Oh No!!";
+        }
+        else{
+    reaction.innerHTML="You cannot say NO 😜";
+
+    const container = document.querySelector(".left");
+
+    noBtn.style.position = "absolute";
+
+    noBtn.onmouseover = function(){
+
+        const containerRect = container.getBoundingClientRect();
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        const maxX = containerRect.width - btnWidth - 20;
+        const maxY = containerRect.height - btnHeight - 20;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+    };
+}
+
+        return;
     }
 
+    // Other questions
     if(selected===questions[currentQuestion].answer){
         reaction.innerHTML="😘 You are correct";
     }else{
         reaction.innerHTML="😠 Oh No!!";
     }
 
-    nextBtn.style.display="inline-block";
+    document.getElementById("nextBtn").style.display="inline-block";
 }
 
 function nextQuestion(){
