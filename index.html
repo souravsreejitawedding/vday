@@ -25,7 +25,13 @@ body{
     color:#d63384;
     margin-bottom:20px;
 }
-
+.header2{
+    text-align:center;
+    font-size:14px;
+    font-weight:bold;
+    color:#d63384;
+    margin-bottom:20px;
+}
 .container{
     display:flex;
     flex-wrap:wrap;
@@ -115,7 +121,9 @@ button:hover{
 <div class="header">
     Hi Sreejita 😘
 </div>
-
+<div class="header2">
+    VDay Special
+</div>
 <div class="container">
 
 <div class="left">
@@ -133,7 +141,7 @@ button:hover{
 </div>
 
 <div class="right" id="imageSection"
-     style="background-image:url('img3.jpeg');">
+     style="background-image:url('img2.jpeg');">
 </div>
 
 </div>
@@ -148,7 +156,7 @@ const questions = [
     question:"Tell me what color dress I wore on our 1st meet?",
     options:["black","blue"],
     answer:"black",
-    image:"img3.jpeg"
+    image:"img2.jpeg"
 },
 {
     question:"Which date I kissed you 1st?",
@@ -160,7 +168,7 @@ const questions = [
     question:"Which day I proposed you?",
     options:["13th march","11th march"],
     answer:"13th march",
-    image:"img3.jpeg"
+    image:"img4.jpeg"
 },
 {
     question:"Will you be my Valentine?",
@@ -184,7 +192,7 @@ function checkAnswer(selected){
             setTimeout(()=>noBtn.classList.remove("vibrate"),300);
             return;
         }else{
-            reaction.innerHTML="😘 You are correct ❤️";
+            reaction.innerHTML="😘 I love you 3000 ❤️";
 
             document.getElementById("options").style.display="none";
 
